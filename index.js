@@ -1,12 +1,15 @@
 import { answers, rest, all } from 'wordle-words'
 
+const headers = {
+  'content-type': 'application/json',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'GET,HEAD,POST,OPTIONS',
+  // 'Access-Control-Max-Age': '86400',
+}
+
 addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
-/**
- * Respond with hello worker text
- * @param {Request} request
- */
 async function handleRequest(request) {
   let url = new URL(request.url)
   let endpoint = url.pathname.split('/')[1]
@@ -14,29 +17,29 @@ async function handleRequest(request) {
 
   if (!endpoint) {
     return new Response(JSON.stringify(answers[dailyIndex]), {
-      headers: { 'content-type': 'application/json' },
+      headers,
     })
   }
 
   if (Number(endpoint) > 0 && Number(endpoint) < answers.length) {
     return new Response(JSON.stringify(answers[Number(endpoint)]), {
-      headers: { 'content-type': 'application/json' },
+      headers,
     })
   }
 
   if (endpoint === 'answers') {
     return new Response(JSON.stringify(answers), {
-      headers: { 'content-type': 'application/json' },
+      headers,
     })
   }
 
   if (endpoint === 'rest') {
     return new Response(JSON.stringify(rest), {
-      headers: { 'content-type': 'application/json' },
+      headers,
     })
   }
 
   return new Response(JSON.stringify(all), {
-    headers: { 'content-type': 'application/json' },
+    headers,
   })
 }
