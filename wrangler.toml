@@ -1,4 +1,4 @@
-name = "wordle-words-worker"
+name = "wordle-words"
 type = "webpack"
 
 account_id = ""
